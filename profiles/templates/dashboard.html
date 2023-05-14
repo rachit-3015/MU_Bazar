@@ -1,0 +1,402 @@
+{% extends 'base.html'%} {% block title %} Dashboard | {% endblock title %}
+<hr />
+{% block body %} {% load static %}
+<section class="dashboard section">
+  <!-- Container Start -->
+  <div class="container">
+    <!-- Row Start -->
+    <div class="row">
+      {% include 'dashboard-base.html' %} {% comment %} {% block sidebar %} {%
+      comment %}
+      <p></p>
+      {% endblock sidebar%} {% endcomment %}
+      <div class="col-lg-8">
+        <!-- Recently Favorited -->
+        <div class="widget dashboard-container my-adslist">
+          <h3 class="widget-header">My Ads</h3>
+          <table class="table table-responsive product-dashboard-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Product Title</th>
+                <th class="text-center">Category</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for ads in listing %}
+              <tr>
+                <td class="product-thumb">
+                  <img
+                    width="80px"
+                    height="auto"
+                    src=" {% static 'images/products/products-1.jpg' %}"
+                    alt="image description"
+                  />
+                </td>
+                <td class="product-details">
+                  <h3 class="title">{{ads.ads_title}}</h3>
+                  <span class="add-id"
+                    ><strong>Ad ID:</strong> {{ads.ads_id}}</span
+                  >
+                  <span
+                    ><strong>Posted on: </strong
+                    ><time>{{ads.listed_date}}</time>
+                  </span>
+                  {% if ads.is_published == True %}
+                  <span class="status active"
+                    ><strong>Status</strong>Active</span
+                  >
+                  {% else %}
+                  <span class="status" style="color: #fe0911"
+                    ><strong>Status</strong>Disable</span
+                  >
+                  {% endif %}
+                  <span class="location"
+                    ><strong>Location</strong>Dhaka,Bangladesh</span
+                  >
+                </td>
+                <td class="product-category">
+                  <span class="categories">{{ads.category_id}}</span>
+                </td>
+                <td class="action" data-title="Action">
+                  <div class="">
+                    <ul class="list-inline justify-content-center">
+                      <li class="list-inline-item">
+                        <a
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="view"
+                          class="view"
+                          href="{% url 'single_ads' ads.ads_id %}"
+                        >
+                          <i class="fa fa-eye"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a
+                          class="edit"
+                          data-toggle="modal"
+                          data-target="#edit{{ads.ads_id}}"
+                          data-placement="top"
+                          title="Edit"
+                          href="dashboard.html"
+                        >
+                          <i class="fa fa-pencil"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a
+                          class="delete"
+                          data-toggle="modal"
+                          data-target="#delete_listing{{ads.ads_id}}"
+                          title="Delete"
+                          href="#!"
+                        >
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <!-- Edit modal -->
+              <div
+                class="modal fade"
+                id="edit{{ads.ads_id}}"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                      <h3>Edit Your ad</h3>
+
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body text-center">
+                      {% comment %}
+                      <img
+                        src="{% static 'images/account/Account1.png' %}"
+                        class="img-fluid mb-2"
+                        alt=""
+                      />
+                      {% endcomment %} {% comment %}
+                      <h6 class="py-2">
+                        Are you sure you want to delete {{ads.ads_title}}
+                        listing ?
+                      </h6>
+                      {% endcomment %}
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <h6 class="font-weight-bold pt-4 pb-1">
+                            Title Of Ad:
+                          </h6>
+                          <input
+                            type="text"
+                            class="form-control bg-white"
+                            placeholder="Ad title go There"
+                            name="ads_title"
+                            value="{{ads.ads_title}}"
+                            required
+                          />
+                          <h6 class="font-weight-bold pt-4 pb-1">Ad for :</h6>
+                          <div class="row px-3">
+                            <div
+                              class="col-lg-3 mr-lg-2 my-2 pt-2 pb-1 rounded bg-white"
+                            >
+                              <input
+                                type="radio"
+                                name="gender"
+                                value="male"
+                                id="male"
+                                required
+                              />
+                              <label for="male" class="py-2">Male</label>
+                            </div>
+                            <div
+                              class="col-lg-3 mr-lg-2 my-2 pt-2 pb-1 rounded bg-white"
+                            >
+                              <input
+                                type="radio"
+                                name="gender"
+                                value="female"
+                                id="female"
+                                required
+                              />
+                              <label for="female" class="py-2">Female</label>
+                            </div>
+                            <div
+                              class="col-lg-3 mr-lg-2 my-2 pt-2 pb-1 rounded bg-white"
+                            >
+                              <input
+                                type="radio"
+                                name="gender"
+                                value="none"
+                                id="none"
+                                required
+                              />
+                              <label for="none" class="py-2">All User</label>
+                            </div>
+                          </div>
+                          <h6 class="font-weight-bold pt-4 pb-1">
+                            Description:
+                          </h6>
+                          <textarea
+                            name="ads-description"
+                            class="form-control bg-white"
+                            rows="7"
+                            required
+                          >
+{{ads.ads_description}}</textarea
+                          >
+                        </div>
+                        <div class="col-lg-6">
+                          <h6 class="font-weight-bold pt-4 pb-1">
+                            Select Ad Category:
+                          </h6>
+                          <select
+                            name="adscategory"
+                            class="form-control w-100 bg-white"
+                            id="inputGroupSelect"
+                          >
+                            <option selected value="">Select category</option>
+
+                            {% for i in cat %}
+                            <hr />
+                            {% if i.category_id == ads.category_id %}
+                            <option value="{{i.category_id}}" selected="">
+                              {{i.category_name}}
+                            </option>
+                            {% else %}
+                            <option value="{{i.category_id}}">
+                              {{i.category_name}}
+                            </option>
+                            {% endif %} {% endfor %}
+                          </select>
+                          <div class="price">
+                            <h6 class="font-weight-bold pt-4 pb-1">
+                              Item Price (&#8377; INR):
+                            </h6>
+                            <div class="row px-3">
+                              <div class="col-lg-4 rounded my-2 px-0">
+                                <input
+                                  type="text"
+                                  name="price"
+                                  class="form-control bg-white"
+                                  placeholder="Price"
+                                  value="{{ads.price}}"
+                                  id="price"
+                                />
+                              </div>
+                              <div
+                                class="col-lg-4 ml-lg-4 my-2 pt-2 pb-1 rounded bg-white"
+                              >
+                                <input
+                                  type="checkbox"
+                                  name="is_negotiable"
+                                  value="True"
+                                  id="Negotiable"
+                                />
+                                <label for="Negotiable" class="py-2"
+                                  >Negotiable</label
+                                >
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="choose-file text-center my-4 py-4 rounded bg-white"
+                          >
+                            <label for="file-upload">
+                              <span class="d-block font-weight-bold text-dark"
+                                >Drop files anywhere to upload</span
+                              >
+                              <span class="d-block">or</span>
+                              <span
+                                class="d-block btn bg-primary text-white my-3 select-files"
+                                >Select files</span
+                              >
+                              <span class="d-block"
+                                >Maximum upload file size: 500 KB</span
+                              >
+                              <input
+                                type="file"
+                                class="form-control-file d-none"
+                                id="file-upload"
+                                name="imagesFile"
+                                accept="image/*"
+                                multiple
+                                required
+                              />
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="modal-footer border-top-0 mb-3 mx-5 justify-content-center"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-danger"
+                        data-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <a
+                        type="button"
+                        href="{% url 'delete_listing' ads.owner.uid ads.ads_id %}"
+                        class="btn btn-primary"
+                        >Save</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Delete Modal -->
+              <div
+                class="modal fade"
+                id="delete_listing{{ads.ads_id}}"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body text-center">
+                      <img
+                        src="{% static 'images/account/Account1.png' %}"
+                        class="img-fluid mb-2"
+                        alt=""
+                      />
+                      <h6 class="py-2">
+                        Are you sure you want to delete {{ads.ads_title}}
+                        listing ?
+                      </h6>
+                    </div>
+                    <div
+                      class="modal-footer border-top-0 mb-3 mx-5 justify-content-center"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <a
+                        type="button"
+                        href="{% url 'delete_listing' ads.owner.uid ads.ads_id %}"
+                        class="btn btn-danger"
+                        >Delete Listing</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% comment %}
+        <!-- pagination -->
+        <div class="pagination justify-content-center">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="dashboard.html"
+                  aria-label="Previous"
+                >
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="dashboard.html">1</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="dashboard.html">2</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="dashboard.html">3</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="dashboard.html" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <!-- pagination -->
+        {% endcomment %}
+      </div>
+    </div>
+    <!-- Row End -->
+  </div>
+  <!-- Container End -->
+</section>
+{% endblock body %}

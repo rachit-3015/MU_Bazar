@@ -1,0 +1,221 @@
+{% extends 'base.html' %} {% block title %} {{ details.ads_title }} |
+{%comment%}
+<p></p>
+{% endcomment %} {%endblock title %}
+<hr />
+{% block body %} {% load static %} {% include 'search-bar.html' %}
+<!--===================================
+=            Store Section            =
+====================================-->
+<section class="section bg-gray">
+  <!-- Container Start -->
+  <div class="container">
+    <div class="row">
+      <!-- Left sidebar -->
+      <div class="col-lg-8">
+        <div class="product-details">
+          <h1 class="product-title">{{details.ads_title}}</h1>
+          <div class="product-meta">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <i class="fa fa-user-o"></i> By
+                <a href="user-profile.html">{{details.owner.get_full_name}}</a>
+              </li>
+              <li class="list-inline-item">
+                <i class="fa fa-folder-open-o"></i> Category<a
+                  href="category.html"
+                  >{{details.category_id}}</a
+                >
+              </li>
+              <li class="list-inline-item">
+                <i class="fa fa-location-arrow"></i> Location<a
+                  href="category.html"
+                  >Dhaka Bangladesh</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- product slider -->
+          <div class="product-slider">
+            {% for photos in image %}
+            <div
+              class="product-slider-item my-4"
+              data-image="{{photos.ads_photos.url}}"
+            >
+              <img
+                class="d-block img-fluid w-100"
+                src="{{photos.ads_photos.url}}"
+                alt="product-img"
+              />
+            </div>
+            {%endfor%} {% comment %}
+            <div
+              class="product-slider-item my-4"
+              data-image="images/products/products-2.jpg"
+            >
+              <img
+                class="d-block img-fluid w-100"
+                src="images/products/products-2.jpg"
+                alt="Second slide"
+              />
+            </div>
+            <div
+              class="product-slider-item my-4"
+              data-image="images/products/products-3.jpg"
+            >
+              <img
+                class="d-block img-fluid w-100"
+                src="images/products/products-3.jpg"
+                alt="Third slide"
+              />
+            </div>
+            <div
+              class="product-slider-item my-4"
+              data-image="images/products/products-1.jpg"
+            >
+              <img
+                class="d-block img-fluid w-100"
+                src="images/products/products-1.jpg"
+                alt="Third slide"
+              />
+            </div>
+            <div
+              class="product-slider-item my-4"
+              data-image="images/products/products-2.jpg"
+            >
+              <img
+                class="d-block img-fluid w-100"
+                src="images/products/products-2.jpg"
+                alt="Third slide"
+              />
+            </div>
+            {% endcomment %}
+          </div>
+          <!-- product slider -->
+
+          <div class="content mt-5 pt-5">
+            {% comment %}
+            <ul
+              class="nav nav-pills justify-content-center"
+              id="pills-tab"
+              role="tablist"
+            >
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  id="pills-home-tab"
+                  data-toggle="pill"
+                  href="#pills-home"
+                  role="tab"
+                  aria-controls="pills-home"
+                  aria-selected="true"
+                  >Product Details</a
+                >
+              </li>
+            </ul>
+            {% endcomment %}
+            <div class="tab-content" id="pills-tabContent">
+              <div
+                class="tab-pane fade show active"
+                id="pills-home"
+                role="tabpanel"
+                aria-labelledby="pills-home-tab"
+              >
+                <h3 class="tab-title">Product Description</h3>
+                <p>{{details.ads_description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="sidebar">
+          <div class="widget price text-center">
+            <h4>Price</h4>
+            <p>&#8377; {{details.price}}</p>
+          </div>
+          <!-- User Profile widget -->
+          <div class="widget user text-center">
+            {% comment %}
+            <img
+              class="rounded-circle img-fluid mb-5 px-5"
+              src="{{'userImage.user_image'}}"
+              alt=""
+            />
+            {% endcomment %}
+            <h3>Posted by :</h3>
+            <h5>
+              <a href="user-profile.html">{{details.owner.get_full_name}}</a>
+            </h5>
+            <p class="member-time">
+              Member Since {{details.owner.date_joined.date}}
+            </p>
+            <a href="single.html">See all ads</a>
+            <ul class="list-inline mt-20">
+              <li class="list-inline-item">
+                <a
+                  href="contact-us.html"
+                  class="btn btn-contact d-inline-block btn-primary px-lg-5 my-1 px-md-3"
+                  >Contact</a
+                >
+              </li>
+              {% comment %}
+              <li class="list-inline-item">
+                <a
+                  href="single.html"
+                  class="btn btn-offer d-inline-block btn-primary ml-n1 my-1 px-lg-4 px-md-3"
+                  >Make an offer</a
+                >
+              </li>
+              {% endcomment %}
+            </ul>
+          </div>
+          <!-- Map Widget -->
+          <table class="table table-bordered product-table">
+            <tr>
+              <th colspan="2">Product Specifications</th>
+            </tr>
+            <tbody>
+              <tr>
+                <td>Seller Price</td>
+                <td>&#8377; {{details.price}}</td>
+              </tr>
+              <tr>
+                <td>Listed Date</td>
+                <td>{{details.listed_date}}</td>
+              </tr>
+              <tr>
+                <td>Condition</td>
+                <td>Used</td>
+              </tr>
+              <tr>
+                <td>Model</td>
+                <td>2017</td>
+              </tr>
+              <tr>
+                <td>Location</td>
+                <td>{{details.location}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Coupon Widget -->
+          <div class="widget coupon text-center">
+            <!-- Coupon description -->
+            <p>
+              Have a great product to post ? Share it with your fellow users.
+            </p>
+            <!-- Submii button -->
+            <a
+              href="{% url 'new_ad_listing' user.uid %}"
+              class="btn btn-transparent-white"
+              >Submit Listing</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Container End -->
+</section>
+{% endblock body %}
